@@ -1,0 +1,197 @@
+body {
+  font-family: Comic Sans MS, cursive, sans-serif;
+  margin: 20px;
+  background: linear-gradient(135deg, #ff69b4, #87ceeb, #90ee90, #ffcc00);
+  background-size: 400% 400%;
+  animation: bgShift 10s infinite alternate;
+  color: #111;
+  text-align: center;
+}
+
+@keyframes bgShift {
+  0% { background-position: left top; }
+  100% { background-position: right bottom; }
+}
+
+h1, h2 {
+  margin-bottom: 10px;
+  text-shadow: 2px 2px #fff;
+  animation: wiggle 1.5s infinite alternate;
+}
+
+@keyframes wiggle {
+  from { transform: rotate(-2deg); }
+  to { transform: rotate(2deg); }
+}
+
+form {
+  margin: 20px auto;
+  padding: 15px;
+  border: 3px dashed hotpink;
+  background: rgba(255, 255, 255, 0.8);
+  display: inline-block;
+}
+
+input[type="submit"] {
+  background: limegreen;
+  color: white;
+  font-weight: bold;
+  padding: 8px 14px;
+  border: 2px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+input[type="submit"]:hover {
+  transform: scale(1.2) rotate(5deg);
+  background: red;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+a {
+  font-size: 1.2em;
+  text-decoration: none;
+  font-weight: bold;
+  background: black;
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: white;
+}
+
+a:hover {
+  background: yellow;
+  color: black;
+  transform: scale(1.1);
+}
+
+code {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 4px 6px;
+  border-radius: 5px;
+  background: #fff;
+  border: 2px solid #000;
+  font-size: 0.85em;
+  color: #333;
+  word-break: break-all;
+}
+
+.message {
+  margin: 15px auto;
+  padding: 10px;
+  background: lime;
+  color: black;
+  border: 3px solid red;
+  font-weight: bold;
+  width: fit-content;
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0% { background: lime; }
+  50% { background: yellow; }
+  100% { background: lime; }
+}
+
+.rainbow {
+  animation: rainbowText 3s linear infinite;
+}
+
+@keyframes rainbowText {
+  0% { color: red; }
+  20% { color: orange; }
+  40% { color: yellow; }
+  60% { color: green; }
+  80% { color: blue; }
+  100% { color: purple; }
+}
+
+
+/* DIN list styling (serious mode, no rainbow) */
+.din-list {
+  margin: 20px auto;
+  padding: 15px;
+  border: 3px solid #333;
+  background: #fdfdfd;
+  max-width: 700px;
+  text-align: left;
+}
+
+.din-list li {
+  margin: 12px 0;
+  padding: 8px;
+  border-bottom: 1px dashed #999;
+}
+
+.din-list li:last-child {
+  border-bottom: none;
+}
+
+.din-list a {
+  display: block;              /* make it take full width */
+  text-align: center;          /* center text horizontally */
+  font-weight: bold;
+  font-size: 1.3em;
+  margin: 0 0 8px 0;           /* spacing below title */
+}
+
+.din-list p,
+.din-list ul li {
+  font-size: 0.95em;
+  color: #444;
+  margin: 5px 0 0 15px;
+}
+
+
+.task-table, .user-task-table {
+  margin: 15px auto;
+  border-collapse: collapse;
+  width: 80%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.task-table th, .task-table td,
+.user-task-table th, .user-task-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.task-table th, .user-task-table th {
+  background: #f0f0f0;
+}
+
+button {
+  margin: 2px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* highlight claimed tasks */
+.claimed {
+  background-color: yellow;
+}
+
+/* claimed button highlight */
+.claimed-btn {
+  background-color: yellow !important;
+  color: black !important;
+  border: 2px solid orange;
+}

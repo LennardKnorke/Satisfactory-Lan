@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Satisfactory LAN Image Server 🎉</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+</head>
+<body>
+  <h1>🚀 Welcome to the Satisfactory LAN Server 🎮</h1>
+
+  <a href="{{ url_for('download_latest_save') }}" class="download-btn">⬇️ Download Latest Factory Plan</a>
+  <br></br>
+
+  <!-- UPLOADING IMGAGES AND GETTING URLS -->
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" multiple>
+    <input type="submit" value="✨ Upload Your Masterpieces ✨">
+  </form>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="message">
+        {% for msg in messages %}
+          <p>{{ msg|safe }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <h2>🌈 Available Files</h2>
+  <ul id="file-list">
+    {% for entry in file_tree %}
+      <li class="rainbow">
+        {% if entry.url %}
+          <a href="{{ entry.url }}" target="_blank">{{ entry.name }}</a><br>
+          <code>{{ entry.url }}</code>
+        {% else %}
+          <strong>{{ entry.name }}/</strong>
+          <ul>
+            {% for child in entry.children %}
+              <li class="rainbow">
+                <a href="{{ child.url }}" target="_blank">{{ child.name }}</a><br>
+                <code>{{ child.url }}</code>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  
+  <!-- TASK LIST -->
+  <h2>📋 Task List</h2>
+
+<!-- Add Task Form -->
+<form method="post" action="{{ url_for('add_task') }}">
+  <input type="text" name="task_desc" placeholder="Enter a new task..." required>
+  <input type="submit" value="➕ Add Task">
+</form>
+
+<!-- All Tasks -->
+<table class="task-table">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks["open"] %}
+<tr>
+  <td>{{ task }}</td>
+  <td>
+    <form method="post" action="{{ url_for('reserve_task', user='lennard') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit" class="{% if task in tasks['lennard'] %}claimed-btn{% endif %}">Lennard</button>
+    </form>
+    <form method="post" action="{{ url_for('reserve_task', user='vitor') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit" class="{% if task in tasks['vitor'] %}claimed-btn{% endif %}">Vitor</button>
+    </form>
+    <form method="post" action="{{ url_for('reserve_task', user='fritz') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit" class="{% if task in tasks['fritz'] %}claimed-btn{% endif %}">Fritz</button>
+    </form>
+    <form method="post" action="{{ url_for('reserve_task', user='nico') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit" class="{% if task in tasks['nico'] %}claimed-btn{% endif %}">Nico</button>
+    </form>
+    <form method="post" action="{{ url_for('reserve_task', user='fabsi') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit" class="{% if task in tasks['fabsi'] %}claimed-btn{% endif %}">Fabsi</button>
+    </form>
+    <form method="post" action="{{ url_for('delete_task') }}">
+      <input type="hidden" name="task" value="{{ task }}">
+      <button type="submit">❌ Delete</button>
+    </form>
+  </td>
+</tr>
+{% endfor %}
+  </tbody>
+</table>
+
+<hr>
+
+<!-- User Task Lists -->
+{% for user, user_tasks in tasks.items() if user != "open" %}
+  <h3>{{ user.capitalize() }}'s Tasks</h3>
+  <table class="user-task-table">
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in user_tasks %}
+        <tr>
+          <td>{{ task }}</td>
+          <td>
+            <form method="post" action="{{ url_for('free_task', user=user) }}" style="display:inline;">
+              <input type="hidden" name="task" value="{{ task }}">
+              <button type="submit">❌ Free</button>
+            </form>
+            <form method="post" action="{{ url_for('complete_task', user=user) }}" style="display:inline;">
+              <input type="hidden" name="task" value="{{ task }}">
+              <button type="submit">✅ Done</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+
+
+  <!-- NORM LIST -->
+  <h2>
+    Dichter Institut für Normung (DIN) &copy;
+  </h2>
+  <ul>
+    <li class="din-list">
+      <a>
+        DIN 101
+      </a>
+      <p>
+        Priorität hat ein effizientes und ästhetisches Design.
+      </p>
+    </li>
+    <li class="din-list">
+      <a>
+        DIN 201
+      </a>
+      <p>
+        Mindestabstand zwischen Gebäuden muss mindesten 8 Fundamente betragen.
+      </p>
+    </li>
+    <li class="din-list">
+      <a>
+        DIN 202
+      </a>
+      <p>
+        Zugtransporte müssen sich an folgende Regeln zu halten:
+        <ul>
+          <li>DIN 202-A: Innerstätische Züge müssen mindestens 3 Wandhöhen über dem Boden verlaufen, dürfen aber für Bahnhöfe und Haltestellen abgesenkt werden.</li>
+          <li>DIN 202-B: Maximal 5 Wagons</li>
+        </ul>
+      </p>
+    </li>
+    <li class="din-list">
+      <a>
+        DIN 301
+      </a>
+      <p>
+        Gebäude haben sich an folgende Regeln für innere Struktur und externer kommunikation zuhalten:
+        <ul>
+          <li>DIN 301-A: Gebäude brauchen klare Ein-und-Ausgänge.</li>
+          <li>DIN 301-B: Ein-und-Ausgänge müssen mit Typ und geplanntem Wert beschriftet werden.</li>
+          <li>DIN 301-C: Gebäude können 1, oder 2 verbindungen für Strom anbieten und verteilen den Strom innerhalb ihres Gebäude selbst.</li>
+          <li>DIN 301-D: Klare Förderband strukturen durchs nutzen der geraden und gekrümmten auslegung. Kein Spaghetti.</li>
+        </ul>
+      </p>
+    </li>
+  </ul>
+
+</body>
+</html>
